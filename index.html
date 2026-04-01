@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CreatorKit — Suite IA pour créateurs FR</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E2C97E;
+    --gold-dim: #8B6F34;
+    --black: #050505;
+    --surface: #0D0D0D;
+    --surface2: #111111;
+    --border: rgba(201,168,76,0.13);
+    --border-hover: rgba(201,168,76,0.38);
+    --text: #F0EAD6;
+    --text-dim: #7A7060;
+  }
+
+- { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+background: var(–black);
+color: var(–text);
+font-family: ‘Montserrat’, sans-serif;
+font-weight: 300;
+min-height: 100vh;
+overflow-x: hidden;
+}
+
+/* GRAIN */
+body::before {
+content: ‘’;
+position: fixed; inset: 0;
+background-image: url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 256 256’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23n)’ opacity=‘0.04’/%3E%3C/svg%3E”);
+pointer-events: none; z-index: 999; opacity: 0.35;
+}
+
+/* GOLD LINE TOP */
+.gold-line {
+height: 1px;
+background: linear-gradient(90deg, transparent, var(–gold), transparent);
+}
+
+/* NAV */
+nav {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 26px 48px;
+border-bottom: 1px solid var(–border);
+}
+
+.logo {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 1.5rem;
+font-weight: 600;
+letter-spacing: 0.1em;
+color: var(–gold);
+}
+
+.logo sup {
+font-size: 0.55rem;
+font-weight: 400;
+letter-spacing: 0.15em;
+color: var(–gold-dim);
+vertical-align: super;
+margin-left: 4px;
+text-transform: uppercase;
+}
+
+.nav-cta {
+display: flex;
+align-items: center;
+gap: 20px;
+}
+
+.nav-link {
+font-size: 0.7rem;
+font-weight: 500;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+color: var(–text-dim);
+text-decoration: none;
+transition: color 0.2s;
+}
+.nav-link:hover { color: var(–gold); }
+
+.nav-btn {
+padding: 8px 20px;
+background: linear-gradient(135deg, var(–gold-dim), var(–gold));
+border: none;
+color: var(–black);
+font-family: ‘Montserrat’, sans-serif;
+font-size: 0.7rem;
+font-weight: 600;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+cursor: pointer;
+border-radius: 2px;
+text-decoration: none;
+transition: opacity 0.2s;
+}
+.nav-btn:hover { opacity: 0.8; }
+
+/* HERO */
+.hero {
+text-align: center;
+padding: 100px 24px 80px;
+position: relative;
+overflow: hidden;
+}
+
+.hero-glow {
+position: absolute;
+top: 0; left: 50%;
+transform: translateX(-50%);
+width: 600px; height: 300px;
+background: radial-gradient(ellipse at top, rgba(201,168,76,0.07) 0%, transparent 70%);
+pointer-events: none;
+}
+
+.eyebrow {
+display: inline-flex;
+align-items: center;
+gap: 10px;
+font-size: 0.65rem;
+font-weight: 500;
+letter-spacing: 0.28em;
+text-transform: uppercase;
+color: var(–gold);
+margin-bottom: 28px;
+opacity: 0;
+animation: fadeUp 0.6s ease forwards 0.1s;
+}
+
+.eyebrow::before, .eyebrow::after {
+content: ‘’;
+width: 30px; height: 1px;
+background: var(–gold-dim);
+}
+
+.hero h1 {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: clamp(3rem, 8vw, 6rem);
+font-weight: 300;
+line-height: 1.05;
+letter-spacing: -0.01em;
+margin-bottom: 24px;
+opacity: 0;
+animation: fadeUp 0.7s ease forwards 0.2s;
+}
+
+.hero h1 em {
+font-style: italic;
+color: var(–gold-light);
+}
+
+.hero-sub {
+font-size: 0.88rem;
+color: var(–text-dim);
+max-width: 520px;
+margin: 0 auto 48px;
+line-height: 1.9;
+opacity: 0;
+animation: fadeUp 0.7s ease forwards 0.3s;
+}
+
+.hero-actions {
+display: flex;
+justify-content: center;
+gap: 14px;
+flex-wrap: wrap;
+opacity: 0;
+animation: fadeUp 0.7s ease forwards 0.4s;
+}
+
+.btn-primary {
+padding: 14px 36px;
+background: linear-gradient(135deg, var(–gold-dim), var(–gold));
+border: none;
+color: var(–black);
+font-family: ‘Montserrat’, sans-serif;
+font-size: 0.75rem;
+font-weight: 600;
+letter-spacing: 0.18em;
+text-transform: uppercase;
+cursor: pointer;
+border-radius: 2px;
+text-decoration: none;
+transition: opacity 0.2s;
+display: inline-block;
+}
+.btn-primary:hover { opacity: 0.85; }
+
+.btn-ghost {
+padding: 14px 36px;
+background: transparent;
+border: 1px solid var(–border-hover);
+color: var(–text);
+font-family: ‘Montserrat’, sans-serif;
+font-size: 0.75rem;
+font-weight: 500;
+letter-spacing: 0.18em;
+text-transform: uppercase;
+cursor: pointer;
+border-radius: 2px;
+text-decoration: none;
+transition: all 0.2s;
+display: inline-block;
+}
+.btn-ghost:hover { border-color: var(–gold); color: var(–gold); }
+
+/* STATS BAR */
+.stats-bar {
+display: flex;
+justify-content: center;
+gap: 0;
+border-top: 1px solid var(–border);
+border-bottom: 1px solid var(–border);
+margin: 0 48px;
+opacity: 0;
+animation: fadeUp 0.6s ease forwards 0.5s;
+}
+
+.stat {
+flex: 1;
+max-width: 200px;
+text-align: center;
+padding: 24px 20px;
+border-right: 1px solid var(–border);
+}
+.stat:last-child { border-right: none; }
+
+.stat-num {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 2rem;
+font-weight: 400;
+color: var(–gold);
+line-height: 1;
+margin-bottom: 6px;
+}
+
+.stat-label {
+font-size: 0.62rem;
+font-weight: 500;
+letter-spacing: 0.18em;
+text-transform: uppercase;
+color: var(–text-dim);
+}
+
+/* TOOLS SECTION */
+.tools-section {
+padding: 90px 48px;
+max-width: 1200px;
+margin: 0 auto;
+}
+
+.section-header {
+text-align: center;
+margin-bottom: 60px;
+opacity: 0;
+animation: fadeUp 0.6s ease forwards 0.1s;
+}
+
+.section-eyebrow {
+font-size: 0.62rem;
+font-weight: 500;
+letter-spacing: 0.25em;
+text-transform: uppercase;
+color: var(–gold-dim);
+margin-bottom: 14px;
+}
+
+.section-title {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: clamp(2rem, 4vw, 3rem);
+font-weight: 300;
+color: var(–text);
+}
+
+/* TOOLS GRID */
+.tools-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+gap: 16px;
+}
+
+.tool-card {
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 4px;
+padding: 32px 30px;
+text-decoration: none;
+color: inherit;
+display: block;
+position: relative;
+overflow: hidden;
+transition: all 0.3s ease;
+opacity: 0;
+animation: fadeUp 0.5s ease forwards;
+}
+
+.tool-card::before {
+content: ‘’;
+position: absolute;
+inset: 0;
+background: linear-gradient(135deg, rgba(201,168,76,0.04) 0%, transparent 60%);
+opacity: 0;
+transition: opacity 0.3s ease;
+}
+
+.tool-card:hover {
+border-color: var(–border-hover);
+transform: translateY(-3px);
+box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.tool-card:hover::before { opacity: 1; }
+
+.tool-card.coming-soon {
+opacity: 0.45 !important;
+cursor: default;
+pointer-events: none;
+}
+
+.tool-icon {
+font-size: 1.8rem;
+margin-bottom: 18px;
+display: block;
+filter: grayscale(20%);
+}
+
+.tool-name {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 1.5rem;
+font-weight: 400;
+color: var(–gold-light);
+margin-bottom: 10px;
+letter-spacing: 0.02em;
+}
+
+.tool-desc {
+font-size: 0.8rem;
+color: var(–text-dim);
+line-height: 1.75;
+margin-bottom: 20px;
+}
+
+.tool-footer {
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+
+.tool-tag {
+font-size: 0.6rem;
+font-weight: 600;
+letter-spacing: 0.18em;
+text-transform: uppercase;
+padding: 4px 10px;
+border-radius: 2px;
+}
+
+.tag-live {
+background: rgba(201,168,76,0.1);
+color: var(–gold);
+border: 1px solid rgba(201,168,76,0.25);
+}
+
+.tag-soon {
+background: rgba(255,255,255,0.03);
+color: var(–text-dim);
+border: 1px solid var(–border);
+}
+
+.tool-arrow {
+font-size: 0.7rem;
+color: var(–gold-dim);
+transition: transform 0.2s, color 0.2s;
+}
+
+.tool-card:hover .tool-arrow {
+transform: translateX(4px);
+color: var(–gold);
+}
+
+/* PRICING */
+.pricing-section {
+padding: 80px 48px;
+text-align: center;
+border-top: 1px solid var(–border);
+position: relative;
+}
+
+.pricing-glow {
+position: absolute;
+bottom: 0; left: 50%;
+transform: translateX(-50%);
+width: 500px; height: 200px;
+background: radial-gradient(ellipse at bottom, rgba(201,168,76,0.05) 0%, transparent 70%);
+pointer-events: none;
+}
+
+.pricing-card {
+display: inline-block;
+background: var(–surface2);
+border: 1px solid var(–gold-dim);
+border-radius: 4px;
+padding: 50px 60px;
+max-width: 460px;
+width: 100%;
+position: relative;
+overflow: hidden;
+}
+
+.pricing-card::before {
+content: ‘’;
+position: absolute;
+top: 0; left: 0; right: 0;
+height: 2px;
+background: linear-gradient(90deg, transparent, var(–gold), transparent);
+}
+
+.pricing-label {
+font-size: 0.62rem;
+font-weight: 600;
+letter-spacing: 0.25em;
+text-transform: uppercase;
+color: var(–gold);
+margin-bottom: 20px;
+}
+
+.pricing-price {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 4rem;
+font-weight: 300;
+color: var(–text);
+line-height: 1;
+margin-bottom: 4px;
+}
+
+.pricing-price sup {
+font-size: 1.5rem;
+vertical-align: super;
+color: var(–gold);
+}
+
+.pricing-period {
+font-size: 0.72rem;
+color: var(–text-dim);
+letter-spacing: 0.1em;
+margin-bottom: 30px;
+}
+
+.pricing-features {
+list-style: none;
+text-align: left;
+margin-bottom: 32px;
+}
+
+.pricing-features li {
+font-size: 0.82rem;
+color: var(–text-dim);
+padding: 8px 0;
+border-bottom: 1px solid var(–border);
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.pricing-features li::before {
+content: ‘✦’;
+color: var(–gold);
+font-size: 0.55rem;
+flex-shrink: 0;
+}
+
+/* FOOTER */
+footer {
+padding: 40px 48px;
+border-top: 1px solid var(–border);
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-wrap: gap;
+gap: 16px;
+}
+
+.footer-logo {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 1.1rem;
+font-weight: 600;
+color: var(–gold-dim);
+letter-spacing: 0.08em;
+}
+
+.footer-note {
+font-size: 0.65rem;
+color: var(–text-dim);
+letter-spacing: 0.1em;
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(18px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+/* MOBILE */
+@media (max-width: 700px) {
+nav { padding: 20px 20px; }
+.hero { padding: 70px 20px 60px; }
+.stats-bar { margin: 0 20px; flex-wrap: wrap; }
+.stat { min-width: 120px; }
+.tools-section { padding: 60px 20px; }
+.pricing-section { padding: 60px 20px; }
+.pricing-card { padding: 36px 28px; }
+footer { padding: 30px 20px; flex-direction: column; text-align: center; }
+}
+</style>
+
+</head>
+<body>
+
+<div class="gold-line"></div>
+
+<nav>
+  <div class="logo">CreatorKit<sup>FR</sup></div>
+  <div class="nav-cta">
+    <a href="#outils" class="nav-link">Les outils</a>
+    <a href="#pricing" class="nav-btn">9 € / mois</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="eyebrow">Suite IA · Créateurs francophones</div>
+  <h1>Crée du contenu<br><em>qui performe</em></h1>
+  <p class="hero-sub">7 outils IA pensés pour les créateurs FR. Captions, hooks, newsletters, scripts — tout ce dont tu as besoin pour publier plus vite et mieux.</p>
+  <div class="hero-actions">
+    <a href="captioncraft.html" class="btn-primary">✦ Commencer gratuitement</a>
+    <a href="#outils" class="btn-ghost">Voir les outils</a>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-num">7</div>
+    <div class="stat-label">Outils IA</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">3</div>
+    <div class="stat-label">Essais gratuits</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">9€</div>
+    <div class="stat-label">Par mois</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">FR</div>
+    <div class="stat-label">100% en français</div>
+  </div>
+</div>
+
+<section class="tools-section" id="outils">
+  <div class="section-header">
+    <div class="section-eyebrow">La suite complète</div>
+    <h2 class="section-title">Tous tes outils, un seul abonnement</h2>
+  </div>
+
+  <div class="tools-grid">
+
+```
+<a href="captioncraft.html" class="tool-card" style="animation-delay:0.1s">
+  <span class="tool-icon">📝</span>
+  <div class="tool-name">CaptionCraft</div>
+  <div class="tool-desc">Génère 3 captions optimisées pour Instagram, TikTok, LinkedIn et X — avec emojis et hashtags, en quelques secondes.</div>
+  <div class="tool-footer">
+    <span class="tool-tag tag-live">Disponible</span>
+    <span class="tool-arrow">→</span>
+  </div>
+</a>
+
+<a href="hookcraft.html" class="tool-card coming-soon" style="animation-delay:0.15s">
+  <span class="tool-icon">🎬</span>
+  <div class="tool-name">HookCraft</div>
+  <div class="tool-desc">10 accroches vidéo percutantes pour capter l'attention dans les 3 premières secondes. Idéal pour Reels et TikToks.</div>
+  <div class="tool-footer">
+    <span class="tool-tag tag-soon">Bientôt</span>
+    <span class="tool-arrow">→</span>
+  </div>
+</a>
+
+<a href="calendarcraft.html" class="tool-card coming-soon" style="animation-delay:0.2s">
+  <span class="tool-icon">📅</span>
+  <div class="tool-name">CalendarCraft</div>
+  <div class="tool-desc">Un calendrier éditorial mensuel complet généré selon ta niche et ta fréquence de publication. Exportable.</div>
+  <div class="tool-footer">
+    <span class="tool-tag tag-soon">Bientôt</span>
+    <span class="tool-arrow">→</span>
+  </div>
+</a>
+
+<a href="biocraft.html" class="tool-card coming-soon" style="animation-delay:0.25s">
+  <span class="tool-icon">💌</span>
+  <div class="tool-name">BioCraft</div>
+  <div class="tool-desc">Bios et pages de lien optimisées par plateforme — Instagram, TikTok, LinkedIn, X. Première impression mémorable.</div>
+  <div class="tool-footer">
+    <span class="tool-tag tag-soon">Bientôt</span>
+    <span class="tool-arrow">→</span>
+  </div>
+</a>
+
+<a href="newslettercraft.html" class="tool-card coming-soon" style="animation-delay:0.3s">
+  <span class="tool-icon">📧</span>
+  <div class="tool-name">NewsletterCraft</div>
+  <div class="tool-desc">Rédige une newsletter complète à partir d'un sujet ou d'une URL — intro, corps, CTA — prête à envoyer sur Brevo ou Mailchimp.</div>
+  <div class="tool-footer">
+    <span class="tool-tag tag-soon">Bientôt</span>
+    <span class="tool-arrow">→</span>
+  </div>
+</a>
+
+<a href="podcastcraft.html" class="tool-card coming-soon" style="animation-delay:0.35s">
+  <span class="tool-icon">🎙️</span>
+  <div class="tool-name">PodcastCraft</div>
+  <div class="tool-desc">Scripts d'épisodes, show notes, descriptions YouTube SEO et questions d'interview — pour podcasters et YouTubeurs.</div>
+  <div class="tool-footer">
+    <span class="tool-tag tag-soon">Bientôt</span>
+    <span class="tool-arrow">→</span>
+  </div>
+</a>
+
+<a href="repurposecraft.html" class="tool-card coming-soon" style="animation-delay:0.4s">
+  <span class="tool-icon">🔁</span>
+  <div class="tool-name">RepurposeCraft</div>
+  <div class="tool-desc">Transforme un article, thread ou script en contenu adapté à chaque plateforme. Un contenu, dix formats.</div>
+  <div class="tool-footer">
+    <span class="tool-tag tag-soon">Bientôt</span>
+    <span class="tool-arrow">→</span>
+  </div>
+</a>
+```
+
+  </div>
+</section>
+
+<section class="pricing-section" id="pricing">
+  <div class="pricing-glow"></div>
+  <div class="section-header" style="margin-bottom:40px">
+    <div class="section-eyebrow">Tarif unique</div>
+    <h2 class="section-title">Un abonnement,<br><em>toute la suite</em></h2>
+  </div>
+  <div class="pricing-card">
+    <div class="pricing-label">CreatorKit Pro</div>
+    <div class="pricing-price"><sup>€</sup>9</div>
+    <div class="pricing-period">par mois · sans engagement</div>
+    <ul class="pricing-features">
+      <li>Accès illimité aux 7 outils</li>
+      <li>Générations illimitées</li>
+      <li>Tous les tons et plateformes</li>
+      <li>Nouveaux outils inclus à vie</li>
+      <li>Support prioritaire en français</li>
+    </ul>
+    <a href="captioncraft.html" class="btn-primary" style="width:100%;text-align:center;display:block">
+      Commencer — 3 essais gratuits
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">CreatorKit</div>
+  <div class="footer-note">Propulsé par Groq AI · Fait pour les créateurs francophones</div>
+</footer>
+
+</body>
+</html>
