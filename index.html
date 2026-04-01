@@ -6,345 +6,149 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="CreatorKit — Suite d'outils IA pour créateurs francophones. Captions, hooks, newsletters et plus. 9€/mois.">
 <title>CreatorKit — Suite IA pour créateurs FR</title>
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
 <style>
-
-/* ── HERO ── */
-.hero {
-padding: 100px 0 80px;
-text-align: center;
-position: relative;
-overflow: hidden;
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+:root{
+  --bg:#080808;--bg-2:#0F0F0F;--bg-3:#141414;
+  --border:rgba(255,255,255,0.07);--border-2:rgba(255,255,255,0.12);
+  --text:#F5F5F0;--text-2:#A0A09A;--text-3:#606060;
+  --accent:#4A9EBF;--accent-2:#7BBFD4;
+  --accent-bg:rgba(74,158,191,0.08);--accent-border:rgba(74,158,191,0.25);
+  --white:#FFFFFF;--success:#4CAF82;
+  --radius:6px;--radius-sm:3px;
+  --font-display:'DM Serif Display',Georgia,serif;
+  --font-body:'DM Sans',system-ui,sans-serif;
 }
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:15px;font-weight:300;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:400;line-height:1.1;letter-spacing:-0.01em}
+h1{font-size:clamp(2.4rem,6vw,4.5rem)}
+h2{font-size:clamp(1.8rem,4vw,3rem)}
+p{line-height:1.75}
+a{color:inherit;text-decoration:none}
+em{font-style:italic}
+.container{max-width:1140px;margin:0 auto;padding:0 48px}
+.section-label{font-size:0.7rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.anim-fade-up{opacity:0;animation:fadeUp 0.5s ease forwards}
 
-.hero-glow {
-position: absolute;
-top: -100px; left: 50%;
-transform: translateX(-50%);
-width: 800px; height: 500px;
-background: radial-gradient(ellipse at top, rgba(74,158,191,0.06) 0%, transparent 65%);
-pointer-events: none;
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;background:rgba(8,8,8,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(–border)}
+.nav-logo{font-family:var(–font-body);font-size:0.95rem;font-weight:600;color:var(–text);display:flex;align-items:center;gap:8px}
+.nav-logo-dot{width:7px;height:7px;background:var(–accent);border-radius:50%;display:inline-block}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-link{font-size:0.82rem;color:var(–text-2);transition:color 0.2s}
+.nav-link:hover{color:var(–text)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 22px;font-family:var(–font-body);font-size:0.82rem;font-weight:500;border:none;border-radius:var(–radius-sm);cursor:pointer;transition:all 0.2s ease;text-decoration:none;white-space:nowrap}
+.btn-primary{background:var(–white);color:var(–bg)}
+.btn-primary:hover{background:#E8E8E4;transform:translateY(-1px);box-shadow:0 4px 20px rgba(255,255,255,0.1)}
+.btn-ghost{background:transparent;color:var(–text-2);border:1px solid var(–border-2)}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.25);color:var(–text);background:rgba(255,255,255,0.03)}
+.btn-accent{background:var(–accent);color:var(–white)}
+.btn-accent:hover{background:var(–accent-2);transform:translateY(-1px)}
+.btn-lg{padding:14px 32px;font-size:0.9rem}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-size:0.7rem;font-weight:500;letter-spacing:0.04em}
+.badge-live{background:rgba(76,175,130,0.1);color:var(–success);border:1px solid rgba(76,175,130,0.2)}
+.badge-live::before{content:’’;width:5px;height:5px;background:var(–success);border-radius:50%;animation:blink 2s ease-in-out infinite}
+.badge-soon{background:rgba(255,255,255,0.04);color:var(–text-3);border:1px solid var(–border)}
+
+/* HERO */
+.hero{padding:100px 0 80px;text-align:center;position:relative;overflow:hidden}
+.hero-glow{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse at top,rgba(74,158,191,0.06) 0%,transparent 65%);pointer-events:none}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;background:var(–accent-bg);border:1px solid var(–accent-border);border-radius:100px;font-size:0.72rem;font-weight:500;color:var(–accent-2);margin-bottom:28px;letter-spacing:0.04em}
+.hero h1{margin-bottom:20px}
+.hero h1 em{color:var(–accent-2)}
+.hero-sub{font-size:1rem;color:var(–text-2);max-width:500px;margin:0 auto 40px;font-weight:300}
+.hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:64px}
+
+/* TRUST BAR */
+.trust-bar{display:flex;justify-content:center;align-items:center;border-top:1px solid var(–border);border-bottom:1px solid var(–border);flex-wrap:wrap}
+.trust-item{display:flex;flex-direction:column;align-items:center;padding:24px 48px;border-right:1px solid var(–border);gap:4px}
+.trust-item:last-child{border-right:none}
+.trust-num{font-family:var(–font-display);font-size:2rem;color:var(–text);line-height:1}
+.trust-label{font-size:0.7rem;color:var(–text-3);letter-spacing:0.05em}
+
+/* TOOLS */
+.tools-section{padding:96px 0}
+.section-header{margin-bottom:56px}
+.section-header h2{color:var(–text)}
+.section-header p{font-size:0.92rem;color:var(–text-2);margin-top:12px;max-width:420px}
+.tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(–border);border:1px solid var(–border);border-radius:var(–radius);overflow:hidden}
+.tool-tile{background:var(–bg-2);padding:32px 28px;display:flex;flex-direction:column;gap:12px;text-decoration:none;color:inherit;transition:background 0.2s}
+.tool-tile:hover{background:var(–bg-3)}
+.tool-tile.disabled{pointer-events:none;opacity:0.5}
+.tool-tile-header{display:flex;align-items:flex-start;justify-content:space-between}
+.tool-icon{font-size:1.4rem;line-height:1}
+.tool-name{font-family:var(–font-body);font-size:1rem;font-weight:600;color:var(–text);letter-spacing:-0.01em}
+.tool-desc{font-size:0.82rem;color:var(–text-2);line-height:1.65;flex:1}
+.tool-link{display:flex;align-items:center;gap:6px;font-size:0.75rem;font-weight:500;color:var(–accent);margin-top:4px;transition:gap 0.2s}
+.tool-tile:hover .tool-link{gap:10px}
+
+/* PRICING */
+.pricing-section{padding:96px 0;border-top:1px solid var(–border)}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:760px;margin:0 auto}
+.pricing-card{background:var(–bg-2);border:1px solid var(–border);border-radius:var(–radius);padding:36px 32px}
+.pricing-card.featured{border-color:var(–accent-border);background:linear-gradient(160deg,rgba(74,158,191,0.06) 0%,var(–bg-2) 50%);position:relative}
+.featured-badge{position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(–accent);color:var(–white);font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:4px 14px;border-radius:0 0 6px 6px}
+.pricing-tier{font-size:0.72rem;font-weight:500;color:var(–text-3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:16px}
+.pricing-price{font-family:var(–font-display);font-size:3rem;color:var(–text);line-height:1;margin-bottom:4px}
+.pricing-price span{font-family:var(–font-body);font-size:1rem;color:var(–text-3);font-weight:300}
+.pricing-desc{font-size:0.8rem;color:var(–text-3);margin-bottom:24px}
+.pricing-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.pricing-features li{display:flex;align-items:center;gap:10px;font-size:0.82rem;color:var(–text-2)}
+.pricing-features li::before{content:‘✓’;color:var(–success);font-size:0.75rem;flex-shrink:0;font-weight:600}
+.pricing-features li.muted{color:var(–text-3)}
+.pricing-features li.muted::before{color:var(–text-3);content:’–’}
+
+/* TRUST POINTS */
+.trust-section{padding:80px 0;border-top:1px solid var(–border)}
+.trust-points{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.trust-point h3{font-family:var(–font-body);font-size:0.95rem;font-weight:600;color:var(–text);margin-bottom:8px}
+.trust-point p{font-size:0.8rem;color:var(–text-2);line-height:1.7}
+.trust-icon{font-size:1.3rem;margin-bottom:14px;display:block}
+
+/* FOOTER */
+.footer{border-top:1px solid var(–border);padding:28px 48px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.footer-brand{font-size:0.8rem;font-weight:500;color:var(–text-3)}
+.footer-note{font-size:0.72rem;color:var(–text-3)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+.tools-grid{grid-template-columns:repeat(2,1fr)}
+.trust-points{grid-template-columns:1fr 1fr}
 }
-
-.hero-eyebrow {
-display: inline-flex;
-align-items: center;
-gap: 8px;
-padding: 5px 14px;
-background: var(–accent-bg);
-border: 1px solid var(–accent-border);
-border-radius: 100px;
-font-size: 0.72rem;
-font-weight: 500;
-color: var(–accent-2);
-margin-bottom: 28px;
-letter-spacing: 0.04em;
+@media(max-width:768px){
+.nav{padding:0 20px;height:56px}
+.nav-links{gap:16px}
+.nav-link{display:none}
+.container{padding:0 20px}
+.footer{padding:24px 20px;flex-direction:column;text-align:center}
+h1{font-size:clamp(2rem,8vw,3rem)}
 }
-
-.hero h1 {
-margin-bottom: 20px;
-color: var(–text);
+@media(max-width:640px){
+.hero{padding:64px 0 48px}
+.trust-item{padding:18px 24px}
+.tools-grid{grid-template-columns:1fr}
+.pricing-grid{grid-template-columns:1fr}
+.trust-points{grid-template-columns:1fr;gap:28px}
+.tools-section,.pricing-section,.trust-section{padding:64px 0}
+.section-header{margin-bottom:36px}
 }
-
-.hero h1 em {
-color: var(–accent-2);
-font-style: italic;
-}
-
-.hero-sub {
-font-size: 1rem;
-color: var(–text-2);
-max-width: 500px;
-margin: 0 auto 40px;
-font-weight: 300;
-}
-
-.hero-actions {
-display: flex;
-justify-content: center;
-gap: 12px;
-flex-wrap: wrap;
-margin-bottom: 64px;
-}
-
-/* ── TRUST BAR ── */
-.trust-bar {
-display: flex;
-justify-content: center;
-align-items: center;
-gap: 0;
-border-top: 1px solid var(–border);
-border-bottom: 1px solid var(–border);
-flex-wrap: wrap;
-}
-
-.trust-item {
-display: flex;
-flex-direction: column;
-align-items: center;
-padding: 24px 48px;
-border-right: 1px solid var(–border);
-gap: 4px;
-}
-.trust-item:last-child { border-right: none; }
-
-.trust-num {
-font-family: var(–font-display);
-font-size: 2rem;
-color: var(–text);
-line-height: 1;
-}
-
-.trust-label {
-font-size: 0.7rem;
-font-weight: 400;
-color: var(–text-3);
-letter-spacing: 0.05em;
-}
-
-/* ── TOOLS SECTION ── */
-.tools-section {
-padding: 96px 0;
-}
-
-.section-header {
-margin-bottom: 56px;
-}
-
-.section-header h2 { color: var(–text); }
-.section-header p {
-font-size: 0.92rem;
-color: var(–text-2);
-margin-top: 12px;
-max-width: 420px;
-}
-
-/* ── TOOLS GRID ── */
-.tools-grid {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 1px;
-background: var(–border);
-border: 1px solid var(–border);
-border-radius: var(–radius);
-overflow: hidden;
-}
-
-.tool-tile {
-background: var(–bg-2);
-padding: 32px 28px;
-display: flex;
-flex-direction: column;
-gap: 12px;
-text-decoration: none;
-color: inherit;
-transition: background 0.2s;
-position: relative;
-}
-
-.tool-tile:hover { background: var(–bg-3); }
-
-.tool-tile.disabled {
-pointer-events: none;
-opacity: 0.5;
-}
-
-.tool-tile-header {
-display: flex;
-align-items: flex-start;
-justify-content: space-between;
-}
-
-.tool-icon {
-font-size: 1.4rem;
-line-height: 1;
-}
-
-.tool-name {
-font-family: var(–font-body);
-font-size: 1rem;
-font-weight: 600;
-color: var(–text);
-letter-spacing: -0.01em;
-}
-
-.tool-desc {
-font-size: 0.82rem;
-color: var(–text-2);
-line-height: 1.65;
-flex: 1;
-}
-
-.tool-link {
-display: flex;
-align-items: center;
-gap: 6px;
-font-size: 0.75rem;
-font-weight: 500;
-color: var(–accent);
-margin-top: 4px;
-transition: gap 0.2s;
-}
-
-.tool-tile:hover .tool-link { gap: 10px; }
-
-/* ── PRICING ── */
-.pricing-section {
-padding: 96px 0;
-border-top: 1px solid var(–border);
-}
-
-.pricing-grid {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 16px;
-max-width: 760px;
-margin: 0 auto;
-}
-
-.pricing-card {
-background: var(–bg-2);
-border: 1px solid var(–border);
-border-radius: var(–radius);
-padding: 36px 32px;
-}
-
-.pricing-card.featured {
-border-color: var(–accent-border);
-background: linear-gradient(160deg, rgba(74,158,191,0.06) 0%, var(–bg-2) 50%);
-position: relative;
-}
-
-.featured-badge {
-position: absolute;
-top: -1px; left: 50%;
-transform: translateX(-50%);
-background: var(–accent);
-color: var(–white);
-font-size: 0.65rem;
-font-weight: 600;
-letter-spacing: 0.08em;
-text-transform: uppercase;
-padding: 4px 14px;
-border-radius: 0 0 6px 6px;
-}
-
-.pricing-tier {
-font-size: 0.72rem;
-font-weight: 500;
-color: var(–text-3);
-letter-spacing: 0.08em;
-text-transform: uppercase;
-margin-bottom: 16px;
-}
-
-.pricing-price {
-font-family: var(–font-display);
-font-size: 3rem;
-color: var(–text);
-line-height: 1;
-margin-bottom: 4px;
-}
-
-.pricing-price span {
-font-family: var(–font-body);
-font-size: 1rem;
-color: var(–text-3);
-font-weight: 300;
-}
-
-.pricing-desc {
-font-size: 0.8rem;
-color: var(–text-3);
-margin-bottom: 24px;
-}
-
-.pricing-features {
-list-style: none;
-display: flex;
-flex-direction: column;
-gap: 10px;
-margin-bottom: 28px;
-}
-
-.pricing-features li {
-display: flex;
-align-items: center;
-gap: 10px;
-font-size: 0.82rem;
-color: var(–text-2);
-}
-
-.pricing-features li::before {
-content: ‘✓’;
-color: var(–success);
-font-size: 0.75rem;
-flex-shrink: 0;
-font-weight: 600;
-}
-
-.pricing-features li.muted { color: var(–text-3); }
-.pricing-features li.muted::before { color: var(–text-3); content: ‘–’; }
-
-/* ── FAQ / TRUST ── */
-.trust-section {
-padding: 80px 0;
-border-top: 1px solid var(–border);
-}
-
-.trust-points {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 40px;
-}
-
-.trust-point h3 {
-font-family: var(–font-body);
-font-size: 0.95rem;
-font-weight: 600;
-color: var(–text);
-margin-bottom: 8px;
-}
-
-.trust-point p {
-font-size: 0.8rem;
-color: var(–text-2);
-line-height: 1.7;
-}
-
-.trust-icon {
-font-size: 1.3rem;
-margin-bottom: 14px;
-display: block;
-}
-
-/* ── MOBILE ── */
-@media (max-width: 900px) {
-.tools-grid { grid-template-columns: repeat(2, 1fr); }
-.trust-points { grid-template-columns: 1fr 1fr; }
-}
-
-@media (max-width: 640px) {
-.hero { padding: 64px 0 48px; }
-.trust-item { padding: 18px 24px; }
-.tools-grid { grid-template-columns: 1fr; }
-.pricing-grid { grid-template-columns: 1fr; }
-.trust-points { grid-template-columns: 1fr; gap: 28px; }
-.tools-section, .pricing-section, .trust-section { padding: 64px 0; }
-.section-header { margin-bottom: 36px; }
-}
+@media(max-width:480px){.btn-lg{padding:13px 24px;font-size:0.85rem}}
 </style>
 
 </head>
 <body>
 
-<!-- NAV -->
-
 <nav class="nav">
-  <a href="index.html" class="nav-logo">
-    <span class="nav-logo-dot"></span>
-    CreatorKit
-  </a>
+  <a href="index.html" class="nav-logo"><span class="nav-logo-dot"></span>CreatorKit</a>
   <div class="nav-links">
     <a href="#outils" class="nav-link">Outils</a>
     <a href="#pricing" class="nav-link">Tarifs</a>
@@ -352,20 +156,12 @@ display: block;
   </div>
 </nav>
 
-<!-- HERO -->
-
 <section class="hero">
   <div class="hero-glow"></div>
   <div class="container">
-    <div class="hero-eyebrow anim-fade-up" style="animation-delay:0.05s">
-      ✦ Suite IA · 100% en français
-    </div>
-    <h1 class="anim-fade-up" style="animation-delay:0.12s">
-      Du contenu qui<br><em>travaille pour toi</em>
-    </h1>
-    <p class="hero-sub anim-fade-up" style="animation-delay:0.2s">
-      7 outils IA conçus pour les créateurs francophones. Publie plus vite, mieux, sans te vider la tête.
-    </p>
+    <div class="hero-eyebrow anim-fade-up" style="animation-delay:0.05s">✦ Suite IA · 100% en français</div>
+    <h1 class="anim-fade-up" style="animation-delay:0.12s">Du contenu qui<br><em>travaille pour toi</em></h1>
+    <p class="hero-sub anim-fade-up" style="animation-delay:0.2s">7 outils IA conçus pour les créateurs francophones. Publie plus vite, mieux, sans te vider la tête.</p>
     <div class="hero-actions anim-fade-up" style="animation-delay:0.28s">
       <a href="captioncraft.html" class="btn btn-primary btn-lg">Essayer gratuitement →</a>
       <a href="#outils" class="btn btn-ghost btn-lg">Voir les outils</a>
@@ -373,28 +169,12 @@ display: block;
   </div>
 </section>
 
-<!-- TRUST BAR -->
-
 <div class="trust-bar anim-fade-up" style="animation-delay:0.36s">
-  <div class="trust-item">
-    <div class="trust-num">7</div>
-    <div class="trust-label">Outils inclus</div>
-  </div>
-  <div class="trust-item">
-    <div class="trust-num">3</div>
-    <div class="trust-label">Essais gratuits</div>
-  </div>
-  <div class="trust-item">
-    <div class="trust-num">9€</div>
-    <div class="trust-label">Par mois</div>
-  </div>
-  <div class="trust-item">
-    <div class="trust-num">FR</div>
-    <div class="trust-label">Optimisé français</div>
-  </div>
+  <div class="trust-item"><div class="trust-num">7</div><div class="trust-label">Outils inclus</div></div>
+  <div class="trust-item"><div class="trust-num">3</div><div class="trust-label">Essais gratuits</div></div>
+  <div class="trust-item"><div class="trust-num">9€</div><div class="trust-label">Par mois</div></div>
+  <div class="trust-item"><div class="trust-num">FR</div><div class="trust-label">Optimisé français</div></div>
 </div>
-
-<!-- TOOLS -->
 
 <section class="tools-section" id="outils">
   <div class="container">
@@ -403,126 +183,84 @@ display: block;
       <h2>Tout ce dont tu as besoin<br>pour créer</h2>
       <p>Un abonnement, 7 outils. Nouveaux outils inclus automatiquement.</p>
     </div>
-
-```
-<div class="tools-grid">
-
-  <a href="captioncraft.html" class="tool-tile">
-    <div class="tool-tile-header">
-      <span class="tool-icon">📝</span>
-      <span class="badge badge-live">Live</span>
+    <div class="tools-grid">
+      <a href="captioncraft.html" class="tool-tile">
+        <div class="tool-tile-header"><span class="tool-icon">📝</span><span class="badge badge-live">Live</span></div>
+        <div class="tool-name">CaptionCraft</div>
+        <div class="tool-desc">3 captions optimisées pour Instagram, TikTok, LinkedIn et X — avec emojis et hashtags.</div>
+        <div class="tool-link">Utiliser l'outil →</div>
+      </a>
+      <a href="hookcraft.html" class="tool-tile disabled">
+        <div class="tool-tile-header"><span class="tool-icon">🎬</span><span class="badge badge-soon">Bientôt</span></div>
+        <div class="tool-name">HookCraft</div>
+        <div class="tool-desc">10 accroches vidéo pour captiver dans les 3 premières secondes. Reels, TikToks, YouTube.</div>
+      </a>
+      <a href="calendarcraft.html" class="tool-tile disabled">
+        <div class="tool-tile-header"><span class="tool-icon">📅</span><span class="badge badge-soon">Bientôt</span></div>
+        <div class="tool-name">CalendarCraft</div>
+        <div class="tool-desc">Calendrier éditorial mensuel complet selon ta niche et ta fréquence. Exportable.</div>
+      </a>
+      <a href="biocraft.html" class="tool-tile disabled">
+        <div class="tool-tile-header"><span class="tool-icon">💌</span><span class="badge badge-soon">Bientôt</span></div>
+        <div class="tool-name">BioCraft</div>
+        <div class="tool-desc">Bios percutantes par plateforme — Instagram, TikTok, LinkedIn, X. Première impression parfaite.</div>
+      </a>
+      <a href="newslettercraft.html" class="tool-tile disabled">
+        <div class="tool-tile-header"><span class="tool-icon">📧</span><span class="badge badge-soon">Bientôt</span></div>
+        <div class="tool-name">NewsletterCraft</div>
+        <div class="tool-desc">Newsletter complète à partir d'un sujet ou d'une URL. Prête à envoyer sur Brevo ou Mailchimp.</div>
+      </a>
+      <a href="podcastcraft.html" class="tool-tile disabled">
+        <div class="tool-tile-header"><span class="tool-icon">🎙️</span><span class="badge badge-soon">Bientôt</span></div>
+        <div class="tool-name">PodcastCraft</div>
+        <div class="tool-desc">Scripts, show notes, descriptions YouTube SEO et questions d'interview.</div>
+      </a>
+      <a href="repurposecraft.html" class="tool-tile disabled" style="grid-column:span 3">
+        <div class="tool-tile-header"><span class="tool-icon">🔁</span><span class="badge badge-soon">Bientôt</span></div>
+        <div class="tool-name">RepurposeCraft</div>
+        <div class="tool-desc">Transforme un article, thread ou script en contenu adapté à chaque plateforme. Un contenu, dix formats.</div>
+      </a>
     </div>
-    <div class="tool-name">CaptionCraft</div>
-    <div class="tool-desc">3 captions optimisées pour Instagram, TikTok, LinkedIn et X — avec emojis et hashtags.</div>
-    <div class="tool-link">Utiliser l'outil →</div>
-  </a>
-
-  <a href="hookcraft.html" class="tool-tile disabled">
-    <div class="tool-tile-header">
-      <span class="tool-icon">🎬</span>
-      <span class="badge badge-soon">Bientôt</span>
-    </div>
-    <div class="tool-name">HookCraft</div>
-    <div class="tool-desc">10 accroches vidéo pour captiver dans les 3 premières secondes. Reels, TikToks, YouTube.</div>
-  </a>
-
-  <a href="calendarcraft.html" class="tool-tile disabled">
-    <div class="tool-tile-header">
-      <span class="tool-icon">📅</span>
-      <span class="badge badge-soon">Bientôt</span>
-    </div>
-    <div class="tool-name">CalendarCraft</div>
-    <div class="tool-desc">Calendrier éditorial mensuel complet selon ta niche et ta fréquence. Exportable.</div>
-  </a>
-
-  <a href="biocraft.html" class="tool-tile disabled">
-    <div class="tool-tile-header">
-      <span class="tool-icon">💌</span>
-      <span class="badge badge-soon">Bientôt</span>
-    </div>
-    <div class="tool-name">BioCraft</div>
-    <div class="tool-desc">Bios percutantes par plateforme — Instagram, TikTok, LinkedIn, X. Première impression parfaite.</div>
-  </a>
-
-  <a href="newslettercraft.html" class="tool-tile disabled">
-    <div class="tool-tile-header">
-      <span class="tool-icon">📧</span>
-      <span class="badge badge-soon">Bientôt</span>
-    </div>
-    <div class="tool-name">NewsletterCraft</div>
-    <div class="tool-desc">Newsletter complète à partir d'un sujet ou d'une URL. Prête à envoyer sur Brevo ou Mailchimp.</div>
-  </a>
-
-  <a href="podcastcraft.html" class="tool-tile disabled">
-    <div class="tool-tile-header">
-      <span class="tool-icon">🎙️</span>
-      <span class="badge badge-soon">Bientôt</span>
-    </div>
-    <div class="tool-name">PodcastCraft</div>
-    <div class="tool-desc">Scripts, show notes, descriptions YouTube SEO et questions d'interview. Pour podcasters et YouTubeurs.</div>
-  </a>
-
-  <a href="repurposecraft.html" class="tool-tile disabled" style="grid-column: span 3;">
-    <div class="tool-tile-header">
-      <span class="tool-icon">🔁</span>
-      <span class="badge badge-soon">Bientôt</span>
-    </div>
-    <div class="tool-name">RepurposeCraft</div>
-    <div class="tool-desc">Transforme un article, thread ou script en contenu adapté à chaque plateforme. Un contenu, dix formats.</div>
-  </a>
-
-</div>
-```
-
   </div>
 </section>
-
-<!-- PRICING -->
 
 <section class="pricing-section" id="pricing">
   <div class="container">
-    <div class="section-header anim-fade-up" style="text-align:center;max-width:none;">
+    <div class="section-header anim-fade-up" style="text-align:center;max-width:none">
       <div class="section-label" style="text-align:center">Tarifs</div>
       <h2 style="text-align:center">Simple et transparent</h2>
     </div>
-
-```
-<div class="pricing-grid">
-  <div class="pricing-card">
-    <div class="pricing-tier">Gratuit</div>
-    <div class="pricing-price">0€ <span>/ mois</span></div>
-    <div class="pricing-desc">Pour découvrir CreatorKit</div>
-    <ul class="pricing-features">
-      <li>3 générations par outil</li>
-      <li>Tous les tons disponibles</li>
-      <li class="muted">Générations illimitées</li>
-      <li class="muted">Nouveaux outils</li>
-      <li class="muted">Support prioritaire</li>
-    </ul>
-    <a href="captioncraft.html" class="btn btn-ghost" style="width:100%;justify-content:center">Commencer →</a>
-  </div>
-
-  <div class="pricing-card featured">
-    <div class="featured-badge">Recommandé</div>
-    <div class="pricing-tier">Pro</div>
-    <div class="pricing-price">9€ <span>/ mois</span></div>
-    <div class="pricing-desc">Sans engagement · Annule quand tu veux</div>
-    <ul class="pricing-features">
-      <li>Générations illimitées</li>
-      <li>Accès aux 7 outils</li>
-      <li>Tous les nouveaux outils inclus</li>
-      <li>Support prioritaire en français</li>
-      <li>Exports illimités</li>
-    </ul>
-    <a href="#" onclick="alert('Remplace par ton lien Stripe')" class="btn btn-accent" style="width:100%;justify-content:center">Passer à Pro →</a>
-  </div>
-</div>
-```
-
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-tier">Gratuit</div>
+        <div class="pricing-price">0€ <span>/ mois</span></div>
+        <div class="pricing-desc">Pour découvrir CreatorKit</div>
+        <ul class="pricing-features">
+          <li>3 générations par outil</li>
+          <li>Tous les tons disponibles</li>
+          <li class="muted">Générations illimitées</li>
+          <li class="muted">Nouveaux outils</li>
+          <li class="muted">Support prioritaire</li>
+        </ul>
+        <a href="captioncraft.html" class="btn btn-ghost" style="width:100%;justify-content:center">Commencer →</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="featured-badge">Recommandé</div>
+        <div class="pricing-tier">Pro</div>
+        <div class="pricing-price">9€ <span>/ mois</span></div>
+        <div class="pricing-desc">Sans engagement · Annule quand tu veux</div>
+        <ul class="pricing-features">
+          <li>Générations illimitées</li>
+          <li>Accès aux 7 outils</li>
+          <li>Tous les nouveaux outils inclus</li>
+          <li>Support prioritaire en français</li>
+          <li>Exports illimités</li>
+        </ul>
+        <a href="#" onclick="alert('Remplace par ton lien Stripe')" class="btn btn-accent" style="width:100%;justify-content:center">Passer à Pro →</a>
+      </div>
+    </div>
   </div>
 </section>
-
-<!-- TRUST POINTS -->
 
 <section class="trust-section">
   <div class="container">
@@ -530,23 +268,21 @@ display: block;
       <div class="trust-point">
         <span class="trust-icon">🇫🇷</span>
         <h3>100% en français</h3>
-        <p>Tous les outils sont optimisés pour la langue et les codes culturels francophones. Pas une traduction — natif.</p>
+        <p>Optimisé pour la langue et les codes culturels francophones. Pas une traduction — natif.</p>
       </div>
       <div class="trust-point">
         <span class="trust-icon">⚡</span>
         <h3>Résultats en secondes</h3>
-        <p>Propulsé par Groq, l'inférence IA la plus rapide du marché. Tu n'attends jamais plus de 3 secondes.</p>
+        <p>Propulsé par Groq, l'inférence IA la plus rapide du marché. Jamais plus de 3 secondes d'attente.</p>
       </div>
       <div class="trust-point">
         <span class="trust-icon">🔒</span>
         <h3>Sans engagement</h3>
-        <p>Essaie gratuitement, annule quand tu veux. Aucun engagement, aucune carte requise pour commencer.</p>
+        <p>Essaie gratuitement, annule quand tu veux. Aucune carte requise pour commencer.</p>
       </div>
     </div>
   </div>
 </section>
-
-<!-- FOOTER -->
 
 <footer class="footer">
   <div class="footer-brand">CreatorKit</div>
