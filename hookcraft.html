@@ -101,37 +101,37 @@ input:focus,textarea:focus{border-color:var(--border-2)}
 }
 
 .res-area{display:flex;flex-direction:column;gap:14px}
-
 </style>
+
 </head>
 <body>
 <nav class="nav">
   <a href="index.html" class="nav-back"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>CreatorKit</a>
   <div class="nav-right">
-    <div id="credBadge" style="font-size:0.78rem;color:var(--text-3)"></div>
+    <span id="credBadge" style="font-size:0.78rem;color:var(--text-3)"></span>
     <a href="#" onclick="goStripe()" class="btn btn-a" style="padding:7px 15px;font-size:0.76rem">Pro — 9€/mois</a>
   </div>
 </nav>
 
 <div class="tool-layout">
   <div class="panel">
-    <div class="tool-hd"><h2><span>🎬</span> HookCraft</h2><p>10 accroches vidéo percutantes pour tes 3 premières secondes</p></div>
+    <div class="tool-hd"><h2><span>🎬</span> HookCraft</h2><p>10 accroches vidéo percutantes pour capter attention en 3 secondes</p></div>
 
 <div><label class="lbl">Type de contenu</label>
 <div class="chips" id="typeGrp">
-  <button class="chip on" data-val="reel" onclick="sel(this,'type')">Reel / TikTok</button>
-  <button class="chip" data-val="youtube" onclick="sel(this,'type')">YouTube</button>
-  <button class="chip" data-val="podcast" onclick="sel(this,'type')">Podcast</button>
+  <button class="chip on" data-val="Reel / TikTok" onclick="sel(this)">Reel / TikTok</button>
+  <button class="chip" data-val="YouTube" onclick="sel(this)">YouTube</button>
+  <button class="chip" data-val="Podcast" onclick="sel(this)">Podcast</button>
 </div></div>
 <div><label class="lbl">Sujet de ta vidéo</label>
 <textarea id="sujet" rows="4" placeholder="Ex : comment j'ai gagné mes 1000 premiers abonnés en 30 jours sans budget pub…"></textarea></div>
-<div><label class="lbl">Ta cible</label>
-<input type="text" id="cible" placeholder="Ex : freelances, étudiants, mamans, entrepreneurs…"></div>
+<div><label class="lbl">Ta cible <span style="color:var(--text-3);font-weight:300">(optionnel)</span></label>
+<input type="text" id="cible" placeholder="Ex : freelances, étudiants, entrepreneurs…"></div>
     <button class="gen-btn" id="genBtn" onclick="generate()"><span id="genLbl">Générer</span></button>
     <div class="cred" id="credBar"><span>Essais gratuits restants :</span><strong id="credN">3</strong></div>
     <div class="err" id="errMsg"></div>
   </div>
-  <div class="panel panel-r" id="outPanel">
+  <div class="panel panel-r">
     <div class="empty" id="emptyState"><div class="empty-icon">🎬</div><p>Tes résultats apparaîtront ici après génération.</p></div>
     <div class="spin" id="spinner"><div class="dots"><span></span><span></span><span></span></div><div>Génération en cours…</div></div>
     <div id="resArea" style="display:none">
@@ -148,88 +148,102 @@ input:focus,textarea:focus{border-color:var(--border-2)}
 </div>
 
 <footer class="footer"><span>CreatorKit · HookCraft</span><span>Propulsé par Groq AI</span></footer>
-
 <script>
-const KEY='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';
+
+const KEY=‘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’;
+const STRIPE=‘https://buy.stripe.com/dRm7sL5S09IPcR18xxes001’;
 const LIMIT=3;
-let credits=parseInt(localStorage.getItem('ck_credits')??LIMIT);
-let isPro=localStorage.getItem('ck_pro')==='true';
+let credits=parseInt(localStorage.getItem(‘ck_credits’)??LIMIT);
+let isPro=localStorage.getItem(‘ck_pro’)===‘true’;
 
 function syncUI(){
-  document.getElementById('credN').textContent=isPro?'∞':Math.max(0,credits);
-  document.getElementById('credBadge').textContent=isPro?'Pro ✦':(Math.max(0,credits)+' essai'+(credits!==1?'s':'')+' gratuit'+(credits!==1?'s':''));
-  if(!isPro&&credits<=0)document.getElementById('credBar').style.display='none';
+const n=isPro?‘∞’:Math.max(0,credits);
+document.getElementById(‘credN’).textContent=n;
+document.getElementById(‘credBadge’).textContent=isPro?‘Pro ✦’:(n+’ essai’+(n!==1?‘s’:’’)+’ gratuit’+(n!==1?‘s’:’’));
+if(!isPro&&credits<=0)document.getElementById(‘credBar’).style.display=‘none’;
 }
 syncUI();
 
-function sel(el,group){
-  el.closest('.chips').querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
-  el.classList.add('on');
+function sel(el){
+el.closest(’.chips’).querySelectorAll(’.chip’).forEach(c=>c.classList.remove(‘on’));
+el.classList.add(‘on’);
 }
-function getChip(groupId){
-  const el=document.querySelector('#'+groupId+' .chip.on');
-  return el?el.dataset.val:'';
-}
+function selMulti(el){el.classList.toggle(‘on’);}
+function getChip(id){const el=document.querySelector(’#’+id+’ .chip.on’);return el?el.dataset.val:’’;}
+function getChips(id){return […document.querySelectorAll(’#’+id+’ .chip.on’)].map(c=>c.dataset.val);}
 
-
-function buildSys(){
-  const sujet=document.getElementById('sujet').value.trim();
-  if(!sujet){showErr('Décris le sujet de ta vidéo.');return null;}
-  const type=getChip('typeGrp');
-  const cible=document.getElementById('cible').value.trim();
-  const system=`Tu es expert en hooks vidéo viraux pour créateurs FR. Génère EXACTEMENT 10 accroches percutantes pour une vidéo ${type} sur le sujet donné. Chaque hook doit capter l'attention dans les 3 premières secondes. Réponds UNIQUEMENT en JSON sans markdown. Format: {"items":[{"label":"Hook 1","text":"..."},{"label":"Hook 2","text":"..."},...]}`;
-  const user='Sujet: '+sujet+(cible?'\nCible: '+cible:'');
-  return {system,user};
+// Robust JSON extractor - finds first {…} block regardless of surrounding text
+function extractJSON(raw){
+const cleaned=raw.replace(/`json/gi,'').replace(/`/g,’’).trim();
+const start=cleaned.indexOf(’{’);
+const end=cleaned.lastIndexOf(’}’);
+if(start===-1||end===-1)throw new Error(‘Réponse invalide du modèle, réessaie.’);
+return JSON.parse(cleaned.slice(start,end+1));
 }
 
-async function generate(){
-  if(!isPro&&credits<=0){showUp();return;}
-  const sys=buildSys();
-  if(sys===null)return;
-  clearErr();setLoad(true);
-  try{
-    const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},body:JSON.stringify({model:'llama-3.3-70b-versatile',temperature:0.87,max_tokens:1800,messages:[{role:'system',content:sys.system},{role:'user',content:sys.user}]})});
-    if(!r.ok){const e=await r.json();throw new Error(e.error?.message||'Erreur '+r.status);}
-    const d=await r.json();
-    const raw=d.choices[0].message.content.trim().replace(/```json|```/g,'').trim();
-    const p=JSON.parse(raw);
-    renderCards(p.items);
-    if(!isPro){credits--;localStorage.setItem('ck_credits',credits);syncUI();if(credits<=0)setTimeout(showUp,1800);}
-  }catch(e){showErr('Erreur: '+e.message);}
-  finally{setLoad(false);}
+async function callGroq(system,user){
+const r=await fetch(‘https://api.groq.com/openai/v1/chat/completions’,{
+method:‘POST’,
+headers:{‘Content-Type’:‘application/json’,‘Authorization’:’Bearer ’+KEY},
+body:JSON.stringify({model:‘llama-3.3-70b-versatile’,temperature:0.85,max_tokens:2000,
+messages:[{role:‘system’,content:system},{role:‘user’,content:user}]})
+});
+if(!r.ok){const e=await r.json();throw new Error(e.error?.message||’Erreur API ’+r.status);}
+const d=await r.json();
+return d.choices[0].message.content;
 }
 
 function renderCards(items){
-  const c=document.getElementById('cards');c.innerHTML='';
-  items.forEach((it,i)=>{
-    const d=document.createElement('div');d.className='card';
-    d.style='padding:18px;animation-delay:'+(i*.07)+'s';
-    const label=it.label||('Résultat '+(i+1));
-    const text=it.text||it.content||it.value||'';
-    d.innerHTML='<div class="card-hd"><span class="card-lbl">'+esc(label)+'</span><button class="copy" onclick="cp(this,'+i+')">Copier</button></div><div class="card-body">'+esc(text)+'</div>';
-    c.appendChild(d);
-  });
-  document.getElementById('emptyState').style.display='none';
-  document.getElementById('resArea').style.display='block';
+const c=document.getElementById(‘cards’);c.innerHTML=’’;
+items.forEach((it,i)=>{
+const d=document.createElement(‘div’);d.className=‘card’;
+d.style=‘padding:18px;animation-delay:’+(i*.07)+‘s’;
+const label=it.label||(‘Résultat ‘+(i+1));
+const text=it.text||it.content||it.value||’’;
+d.innerHTML=’<div class="card-hd"><span class="card-lbl">’+esc(label)+’</span><button class="copy" onclick="cp(this,'+i+')">Copier</button></div><div class="card-body">’+esc(text)+’</div>’;
+c.appendChild(d);
+});
+document.getElementById(‘emptyState’).style.display=‘none’;
+document.getElementById(‘resArea’).style.display=‘block’;
 }
 
 function cp(btn,idx){
-  const texts=document.querySelectorAll('.card-body');
-  navigator.clipboard.writeText(texts[idx].textContent).then(()=>{btn.textContent='✓ Copié';btn.classList.add('ok');setTimeout(()=>{btn.textContent='Copier';btn.classList.remove('ok');},2000);});
+const texts=document.querySelectorAll(’.card-body’);
+navigator.clipboard.writeText(texts[idx].textContent).then(()=>{
+btn.textContent=‘✓ Copié’;btn.classList.add(‘ok’);
+setTimeout(()=>{btn.textContent=‘Copier’;btn.classList.remove(‘ok’);},2000);
+});
 }
 function setLoad(on){
-  document.getElementById('spinner').classList.toggle('on',on);
-  document.getElementById('genBtn').disabled=on;
-  document.getElementById('genLbl').textContent=on?'Génération…':'Générer';
-  if(on){document.getElementById('emptyState').style.display='none';document.getElementById('resArea').style.display='none';document.getElementById('upWall').classList.remove('on');}
-  else document.getElementById('spinner').classList.remove('on');
+document.getElementById(‘spinner’).classList.toggle(‘on’,on);
+document.getElementById(‘genBtn’).disabled=on;
+document.getElementById(‘genLbl’).textContent=on?‘Génération…’:‘Générer’;
+if(on){document.getElementById(‘emptyState’).style.display=‘none’;document.getElementById(‘resArea’).style.display=‘none’;document.getElementById(‘upWall’).classList.remove(‘on’);}
+else document.getElementById(‘spinner’).classList.remove(‘on’);
 }
-function showUp(){document.getElementById('emptyState').style.display='none';document.getElementById('resArea').style.display='none';document.getElementById('upWall').classList.add('on');}
-function showErr(m){const e=document.getElementById('errMsg');e.textContent=m;e.classList.add('on');}
-function clearErr(){document.getElementById('errMsg').classList.remove('on');}
-function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function goStripe(){window.location.href='https://buy.stripe.com/dRm7sL5S09IPcR18xxes001';}
+function showUp(){document.getElementById(‘emptyState’).style.display=‘none’;document.getElementById(‘resArea’).style.display=‘none’;document.getElementById(‘upWall’).classList.add(‘on’);}
+function showErr(m){const e=document.getElementById(‘errMsg’);e.textContent=m;e.classList.add(‘on’);}
+function clearErr(){document.getElementById(‘errMsg’).classList.remove(‘on’);}
+function esc(t){return String(t).replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’);}
+function goStripe(){window.location.href=STRIPE;}
 
+async function generate(){
+const sujet=document.getElementById(‘sujet’).value.trim();
+if(!sujet){showErr(‘Décris le sujet de ta vidéo.’);return;}
+if(!isPro&&credits<=0){showUp();return;}
+clearErr();setLoad(true);
+const type=getChip(‘typeGrp’)||‘Reel / TikTok’;
+const cible=document.getElementById(‘cible’).value.trim();
+const system=‘Tu es expert en hooks vidéo viraux pour créateurs FR. Génère EXACTEMENT 10 accroches percutantes pour une vidéo ‘+type+’ sur le sujet donné. Chaque hook capte attention en 3 secondes. Réponds UNIQUEMENT en JSON valide. Format: {“items”:[{“label”:“Hook 1”,“text”:”…”},{“label”:“Hook 2”,“text”:”…”},{“label”:“Hook 3”,“text”:”…”},{“label”:“Hook 4”,“text”:”…”},{“label”:“Hook 5”,“text”:”…”},{“label”:“Hook 6”,“text”:”…”},{“label”:“Hook 7”,“text”:”…”},{“label”:“Hook 8”,“text”:”…”},{“label”:“Hook 9”,“text”:”…”},{“label”:“Hook 10”,“text”:”…”}]}’;
+const user=‘Sujet: ‘+sujet+(cible?’\nCible: ‘+cible:’’);
+try{
+const raw=await callGroq(system,user);
+const p=extractJSON(raw);
+renderCards(p.items);
+if(!isPro){credits–;localStorage.setItem(‘ck_credits’,credits);syncUI();if(credits<=0)setTimeout(showUp,1800);}
+}catch(e){showErr(’Erreur: ’+e.message);}
+finally{setLoad(false);}
+}
 </script>
 
 </body></html>
