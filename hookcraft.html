@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>CaptionCraft — CreatorKit</title>
+<title>HookCraft — CreatorKit</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
 <style>
 
@@ -122,29 +122,21 @@ input:focus,textarea:focus{border-color:var(–br2)}
 <div class="layout">
   <div class="panel">
     <div class="tool-hd">
-      <h2><span>📝</span> CaptionCraft</h2>
-      <p>3 captions optimisées par plateforme avec emojis et hashtags</p>
+      <h2><span>🎬</span> HookCraft</h2>
+      <p>10 accroches vidéo percutantes pour capter l'attention en 3 secondes</p>
     </div>
 
 ```
-<label class="lbl">Plateforme</label>
-<div class="chips" id="platGrp">
-  <button type="button" class="chip on" data-val="Instagram" onclick="selChip(this)">Instagram</button>
-  <button type="button" class="chip" data-val="TikTok" onclick="selChip(this)">TikTok</button>
-  <button type="button" class="chip" data-val="LinkedIn" onclick="selChip(this)">LinkedIn</button>
-  <button type="button" class="chip" data-val="X/Twitter" onclick="selChip(this)">X / Twitter</button>
+<label class="lbl">Type de contenu</label>
+<div class="chips" id="typeGrp">
+  <button type="button" class="chip on" data-val="Reel ou TikTok" onclick="selChip(this)">Reel / TikTok</button>
+  <button type="button" class="chip" data-val="YouTube" onclick="selChip(this)">YouTube</button>
+  <button type="button" class="chip" data-val="Podcast" onclick="selChip(this)">Podcast</button>
 </div>
-<label class="lbl">Ton de voix</label>
-<div class="chips" id="toneGrp">
-  <button type="button" class="chip on" data-val="casual et authentique" onclick="selChip(this)">Casual</button>
-  <button type="button" class="chip" data-val="professionnel et expert" onclick="selChip(this)">Pro</button>
-  <button type="button" class="chip" data-val="viral et accrocheur" onclick="selChip(this)">Viral</button>
-  <button type="button" class="chip" data-val="humoristique et décalé" onclick="selChip(this)">Humour</button>
-</div>
-<label class="lbl">Décris ton post</label>
-<textarea id="desc" rows="5" placeholder="Ex : photo de moi dans un café parisien, ambiance matinale, routine productive…"></textarea>
-<label class="lbl">Mots-clés <span style="color:var(--tx3);font-weight:300">(optionnel)</span></label>
-<input type="text" id="kw" placeholder="freelance, Paris, productivité…">
+<label class="lbl">Sujet de ta vidéo</label>
+<textarea id="sujet" rows="4" placeholder="Ex : comment j'ai gagné mes 1000 premiers abonnés en 30 jours sans budget pub…"></textarea>
+<label class="lbl">Ta cible <span style="color:var(--tx3);font-weight:300">(optionnel)</span></label>
+<input type="text" id="cible" placeholder="Ex : freelances, étudiants, entrepreneurs…">
 
 <button type="button" class="gen-btn" id="genBtn" onclick="generate()">
   <span id="genLbl">Générer</span>
@@ -157,7 +149,7 @@ input:focus,textarea:focus{border-color:var(–br2)}
 
   <div class="panel panel-r">
     <div class="empty" id="emptyState">
-      <div class="empty-ico">📝</div>
+      <div class="empty-ico">🎬</div>
       <p>Tes résultats apparaîtront ici après génération.</p>
     </div>
     <div class="spin" id="spinner">
@@ -178,7 +170,7 @@ input:focus,textarea:focus{border-color:var(–br2)}
 </div>
 
 <footer class="footer">
-  <span>CreatorKit · CaptionCraft</span>
+  <span>CreatorKit · HookCraft</span>
   <span>Propulsé par Groq AI</span>
 </footer>
 
@@ -186,7 +178,7 @@ input:focus,textarea:focus{border-color:var(–br2)}
 
 const GROQ_KEY = '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';
 const STRIPE_URL = 'https://buy.stripe.com/dRm7sL5S09IPcR18xxes001';
-const TOOL_KEY = 'cap';
+const TOOL_KEY = 'hk';
 const FREE_LIMIT = 3;
 
 // Load credits per-tool
@@ -358,20 +350,12 @@ async function generate() {
     setLoading(true);
     try {
         
-        var desc = document.getElementById('desc').value.trim();
-        if (!desc) { showError('Décris ton post avant de générer.'); setLoading(false); return; }
-        var plat = getChip('platGrp') || 'Instagram';
-        var tone = getChip('toneGrp') || 'casual et authentique';
-        var kw = document.getElementById('kw').value.trim();
-        var platRules = {
-            'Instagram': 'Instagram : max 2200 caracteres, emojis naturels, 3-5 hashtags a la fin',
-            'TikTok': 'TikTok : max 150 caracteres, ultra-accrocheur, 2-3 hashtags tendance',
-            'LinkedIn': 'LinkedIn : professionnel, 1-3 paragraphes, 0-1 hashtag discret',
-            'X/Twitter': 'X/Twitter : max 280 caracteres, incisif, 0-2 hashtags'
-        };
-        var rule = platRules[plat] || platRules['Instagram'];
-        var system = 'Tu es expert copywriting reseaux sociaux FR. Genere EXACTEMENT 3 captions distinctes pour ' + rule + '. Ton : ' + tone + '. Reponds UNIQUEMENT en JSON valide sans aucun texte avant ou apres. Format strict : {"items":[{"label":"Version 1","text":"..."},{"label":"Version 2","text":"..."},{"label":"Version 3","text":"..."}]}';
-        var user = 'Post : ' + desc + (kw ? ' | Mots-cles : ' + kw : '');
+        var sujet = document.getElementById('sujet').value.trim();
+        if (!sujet) { showError('Décris le sujet de ta vidéo.'); setLoading(false); return; }
+        var type = getChip('typeGrp') || 'Reel ou TikTok';
+        var cible = document.getElementById('cible').value.trim();
+        var system = 'Tu es expert hooks video viraux FR. Genere EXACTEMENT 10 accroches percutantes pour une video ' + type + '. Chaque hook capture attention en moins de 3 secondes. Reponds UNIQUEMENT en JSON valide sans texte avant ou apres. Format strict : {"items":[{"label":"Hook 1","text":"..."},{"label":"Hook 2","text":"..."},{"label":"Hook 3","text":"..."},{"label":"Hook 4","text":"..."},{"label":"Hook 5","text":"..."},{"label":"Hook 6","text":"..."},{"label":"Hook 7","text":"..."},{"label":"Hook 8","text":"..."},{"label":"Hook 9","text":"..."},{"label":"Hook 10","text":"..."}]}';
+        var user = 'Sujet : ' + sujet + (cible ? ' | Cible : ' + cible : '');
         var raw = await callGroq(system, user);
         var parsed = extractJSON(raw);
         renderCards(parsed.items);
