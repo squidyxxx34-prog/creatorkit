@@ -5,116 +5,102 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>CalendarCraft — CreatorKit</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
 <style>
-
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 :root{
-–bg:#080808;–bg2:#0F0F0F;–bg3:#141414;
-–br:rgba(255,255,255,0.07);–br2:rgba(255,255,255,0.13);
-–tx:#F5F5F0;–tx2:#A0A09A;–tx3:#606060;
-–ac:#4A9EBF;–ac2:#7BBFD4;
-–acbg:rgba(74,158,191,0.08);–acbr:rgba(74,158,191,0.25);
-–wh:#FFFFFF;–ok:#4CAF82;
-–r:6px;–rs:3px;
-–fd:‘DM Serif Display’,Georgia,serif;
-–fb:‘DM Sans’,system-ui,sans-serif;
+  --bg:#080808;--bg2:#0F0F0F;--bg3:#161616;
+  --br:rgba(255,255,255,0.08);--br2:rgba(255,255,255,0.15);
+  --tx:#F0F0EB;--tx2:#9A9A94;--tx3:#5A5A5A;
+  --ac:#4A9EBF;--ac2:#7BBFD4;
+  --acbg:rgba(74,158,191,0.09);--acbr:rgba(74,158,191,0.28);
+  --wh:#FFFFFF;--ok:#4CAF82;
+  --r:8px;--rs:4px;
+  --fd:Georgia,'Times New Roman',serif;
+  --fb:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
 }
-body{background:var(–bg);color:var(–tx);font-family:var(–fb);font-size:15px;font-weight:300;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-body::after{content:’’;position:fixed;inset:0;background-image:url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 200 200’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.85’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23n)’ opacity=‘0.025’/%3E%3C/svg%3E”);pointer-events:none;z-index:9999}
-h1,h2,h3{font-family:var(–fd);font-weight:400;line-height:1.1}
-p{line-height:1.75}a{color:inherit;text-decoration:none}em{font-style:italic}
-/* NAV */
-.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:60px;background:rgba(8,8,8,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(–br)}
-.nav-back{display:flex;align-items:center;gap:7px;font-size:0.8rem;color:var(–tx3);transition:color 0.2s;text-decoration:none}
-.nav-back:hover{color:var(–tx2)}
-.nav-r{display:flex;align-items:center;gap:16px}
-/* BUTTONS */
-.btn{display:inline-flex;align-items:center;justify-content:center;padding:8px 18px;font-family:var(–fb);font-size:0.8rem;font-weight:500;border:none;border-radius:var(–rs);cursor:pointer;transition:all 0.2s;text-decoration:none;white-space:nowrap}
-.btn-a{background:var(–ac);color:#fff}.btn-a:hover{background:var(–ac2)}
+body{background:var(--bg);color:var(--tx);font-family:var(--fb);font-size:15px;font-weight:400;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3{font-family:var(--fd);font-weight:400;line-height:1.15}
+p{line-height:1.75}
+a{color:inherit;text-decoration:none}
+.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:58px;background:rgba(8,8,8,0.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--br)}
+.nav-back{display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--tx3);transition:color 0.2s}
+.nav-back:hover{color:var(--tx2)}
+.nav-r{display:flex;align-items:center;gap:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:8px 18px;font-family:var(--fb);font-size:0.8rem;font-weight:500;border:none;border-radius:var(--rs);cursor:pointer;transition:all 0.2s;text-decoration:none;white-space:nowrap;line-height:1}
+.btn-a{background:var(--ac);color:#fff}
+.btn-a:hover{background:var(--ac2)}
 .btn-lg{padding:13px 28px;font-size:0.88rem}
-/* CHIPS */
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-.chip{padding:7px 16px;background:var(–bg3);border:1px solid var(–br);border-radius:100px;color:var(–tx2);font-family:var(–fb);font-size:0.78rem;cursor:pointer;transition:all 0.18s;-webkit-tap-highlight-color:transparent;user-select:none}
-.chip:hover{border-color:var(–br2);color:var(–tx)}
-.chip.on{background:var(–acbg);border-color:var(–acbr);color:var(–ac2)}
-/* LABELS & INPUTS */
-.lbl{display:block;font-size:0.74rem;font-weight:500;color:var(–tx2);margin-bottom:6px;margin-top:16px}
+.chip{padding:8px 16px;background:var(--bg3);border:1px solid var(--br);border-radius:100px;color:var(--tx2);font-family:var(--fb);font-size:0.8rem;font-weight:400;cursor:pointer;transition:all 0.15s;-webkit-tap-highlight-color:transparent;user-select:none}
+.chip:hover{border-color:var(--br2);color:var(--tx)}
+.chip.on{background:var(--acbg);border-color:var(--acbr);color:var(--ac2);font-weight:500}
+.lbl{display:block;font-size:0.76rem;font-weight:500;color:var(--tx2);margin-bottom:6px;margin-top:18px}
 .lbl:first-child{margin-top:0}
-input,textarea{width:100%;background:var(–bg3);border:1px solid var(–br);border-radius:var(–rs);color:var(–tx);font-family:var(–fb);font-size:0.88rem;font-weight:300;padding:11px 14px;outline:none;transition:border-color 0.2s;-webkit-appearance:none;display:block}
+input,textarea{width:100%;background:var(--bg3);border:1px solid var(--br);border-radius:var(--rs);color:var(--tx);font-family:var(--fb);font-size:0.88rem;font-weight:400;padding:11px 14px;outline:none;transition:border-color 0.2s;-webkit-appearance:none;display:block;box-sizing:border-box}
 textarea{resize:vertical;min-height:90px;line-height:1.6}
-input::placeholder,textarea::placeholder{color:var(–tx3)}
-input:focus,textarea:focus{border-color:var(–br2)}
-/* LAYOUT */
-.layout{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 60px - 65px)}
-.panel{padding:36px 36px;overflow-y:auto}
-.panel-r{border-left:1px solid var(–br);background:var(–bg)}
-.tool-hd{padding-bottom:18px;border-bottom:1px solid var(–br);margin-bottom:20px}
-.tool-hd h2{font-family:var(–fb);font-size:1.05rem;font-weight:600;display:flex;align-items:center;gap:9px;margin-bottom:3px}
-.tool-hd p{font-size:0.79rem;color:var(–tx3)}
-/* GENERATE BUTTON */
-.gen-btn{width:100%;margin-top:20px;padding:13px;background:var(–wh);border:none;border-radius:var(–rs);color:var(–bg);font-family:var(–fb);font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.gen-btn:hover{background:#E5E5E0;transform:translateY(-1px)}
-.gen-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none}
-/* CREDITS */
-.cred-bar{margin-top:10px;text-align:center;font-size:0.72rem;color:var(–tx3)}
-.cred-bar strong{color:var(–tx2)}
-/* ERROR */
-.err{display:none;margin-top:12px;padding:11px 14px;background:rgba(220,70,70,0.08);border:1px solid rgba(220,70,70,0.2);border-radius:var(–rs);color:#E08080;font-size:0.81rem;line-height:1.6}
+input::placeholder,textarea::placeholder{color:var(--tx3)}
+input:focus,textarea:focus{border-color:var(--br2)}
+.layout{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 58px - 60px)}
+.panel{padding:32px;overflow-y:auto}
+.panel-r{border-left:1px solid var(--br);background:var(--bg)}
+.tool-hd{padding-bottom:18px;border-bottom:1px solid var(--br);margin-bottom:22px}
+.tool-hd h2{font-size:1.05rem;font-weight:600;font-family:var(--fb);display:flex;align-items:center;gap:9px;margin-bottom:4px}
+.tool-hd p{font-size:0.8rem;color:var(--tx3)}
+.gen-btn{width:100%;margin-top:22px;padding:14px;background:var(--wh);border:none;border-radius:var(--rs);color:#111;font-family:var(--fb);font-size:0.88rem;font-weight:600;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.gen-btn:hover{background:#EAEAE6;transform:translateY(-1px)}
+.gen-btn:disabled{opacity:0.38;cursor:not-allowed;transform:none}
+.cred-bar{margin-top:10px;text-align:center;font-size:0.73rem;color:var(--tx3)}
+.cred-bar strong{color:var(--tx2)}
+.err{display:none;margin-top:12px;padding:11px 14px;background:rgba(210,60,60,0.1);border:1px solid rgba(210,60,60,0.25);border-radius:var(--rs);color:#E09090;font-size:0.82rem;line-height:1.6}
 .err.show{display:block}
-/* SPINNER */
-.spin{display:none;flex-direction:column;align-items:center;gap:12px;padding:60px 20px;color:var(–tx3);font-size:0.78rem}
+.spin{display:none;flex-direction:column;align-items:center;gap:14px;padding:60px 20px;color:var(--tx3);font-size:0.8rem}
 .spin.show{display:flex}
-.dots{display:flex;gap:5px}
-.dots span{width:5px;height:5px;background:var(–ac);border-radius:50%;animation:bnc 1.1s ease-in-out infinite}
-.dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}
-@keyframes bnc{0%,80%,100%{transform:scale(0.7);opacity:0.4}40%{transform:scale(1.1);opacity:1}}
-/* EMPTY STATE */
-.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;color:var(–tx3);padding:60px 30px;min-height:300px}
-.empty-ico{font-size:2.2rem;opacity:0.3}
-.empty p{font-size:0.8rem;max-width:220px;line-height:1.7}
-/* RESULTS */
-.res-wrap{display:flex;flex-direction:column;gap:14px}
-.res-hd{font-size:0.72rem;font-weight:500;color:var(–tx3);margin-bottom:4px;padding-bottom:14px;border-bottom:1px solid var(–br)}
-.card{background:var(–bg2);border:1px solid var(–br);border-radius:var(–r);padding:18px;animation:fup .35s ease forwards;opacity:0}
-.card:nth-child(2){animation-delay:.07s}.card:nth-child(3){animation-delay:.14s}
-.card:nth-child(4){animation-delay:.21s}.card:nth-child(5){animation-delay:.28s}
-@keyframes fup{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.dots{display:flex;gap:6px}
+.dots span{width:6px;height:6px;background:var(--ac);border-radius:50%;animation:bnc 1.1s ease-in-out infinite}
+.dots span:nth-child(2){animation-delay:.18s}
+.dots span:nth-child(3){animation-delay:.36s}
+@keyframes bnc{0%,80%,100%{transform:scale(0.65);opacity:0.3}40%{transform:scale(1.15);opacity:1}}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;color:var(--tx3);padding:60px 24px;min-height:280px}
+.empty-ico{font-size:2.4rem;opacity:0.28}
+.empty p{font-size:0.82rem;max-width:210px;line-height:1.7}
+.res-inner{padding:24px;display:flex;flex-direction:column;gap:14px}
+.res-hd{font-size:0.72rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--tx3);margin-bottom:4px;padding-bottom:14px;border-bottom:1px solid var(--br)}
+.card{background:var(--bg2);border:1px solid var(--br);border-radius:var(--r);padding:18px;animation:fup .3s ease forwards;opacity:0}
+.card:nth-child(2){animation-delay:.06s}
+.card:nth-child(3){animation-delay:.12s}
+.card:nth-child(4){animation-delay:.18s}
+.card:nth-child(5){animation-delay:.24s}
+@keyframes fup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.card-lbl{font-size:0.67rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(–tx3)}
-.card-body{font-size:0.87rem;color:var(–tx);line-height:1.75;white-space:pre-wrap;word-break:break-word}
-.copy-btn{padding:5px 12px;background:transparent;border:1px solid var(–br);border-radius:var(–rs);color:var(–tx3);font-family:var(–fb);font-size:0.7rem;font-weight:500;cursor:pointer;transition:all 0.18s}
-.copy-btn:hover{border-color:var(–br2);color:var(–tx2)}
-.copy-btn.ok{border-color:rgba(76,175,130,0.4);color:var(–ok)}
-/* UPGRADE */
-.up-wall{display:none;background:linear-gradient(135deg,rgba(74,158,191,0.07),rgba(74,158,191,0.02));border:1px solid var(–acbr);border-radius:var(–r);padding:36px 24px;text-align:center;margin:20px}
+.card-lbl{font-size:0.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3)}
+.card-body{font-size:0.87rem;color:var(--tx);line-height:1.75;white-space:pre-wrap;word-break:break-word}
+.copy-btn{padding:5px 12px;background:transparent;border:1px solid var(--br);border-radius:var(--rs);color:var(--tx3);font-family:var(--fb);font-size:0.7rem;font-weight:500;cursor:pointer;transition:all 0.15s}
+.copy-btn:hover{border-color:var(--br2);color:var(--tx2)}
+.copy-btn.ok{border-color:rgba(76,175,130,0.4);color:var(--ok)}
+.up-wall{display:none;background:linear-gradient(135deg,rgba(74,158,191,0.08),rgba(74,158,191,0.02));border:1px solid var(--acbr);border-radius:var(--r);padding:36px 24px;text-align:center;margin:24px}
 .up-wall.show{display:block}
-.up-wall h3{font-family:var(–fd);font-size:1.35rem;color:var(–tx);margin-bottom:8px}
-.up-wall p{font-size:0.81rem;color:var(–tx2);margin-bottom:20px;line-height:1.7}
-/* FOOTER */
-.footer{border-top:1px solid var(–br);padding:20px 40px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.footer span{font-size:0.7rem;color:var(–tx3)}
-/* RESPONSIVE */
+.up-wall h3{font-family:var(--fd);font-size:1.4rem;color:var(--tx);margin-bottom:10px}
+.up-wall p{font-size:0.82rem;color:var(--tx2);margin-bottom:22px;line-height:1.75}
+.footer{border-top:1px solid var(--br);padding:18px 32px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.footer span{font-size:0.7rem;color:var(--tx3)}
 @media(max-width:768px){
-.nav{padding:0 16px;height:54px}
-.layout{grid-template-columns:1fr;min-height:unset}
-.panel{padding:20px 16px}
-.panel-r{border-left:none;border-top:1px solid var(–br);min-height:40vh}
-.footer{padding:16px 16px;flex-direction:column;text-align:center}
+  .nav{padding:0 16px;height:52px}
+  .layout{grid-template-columns:1fr;min-height:unset}
+  .panel{padding:20px 16px}
+  .panel-r{border-left:none;border-top:1px solid var(--br);min-height:45vh}
+  .footer{padding:14px 16px;flex-direction:column;text-align:center}
 }
-
 </style>
 </head>
 <body>
-
 <nav class="nav">
   <a href="index.html" class="nav-back">
     <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     CreatorKit
   </a>
   <div class="nav-r">
-    <span id="credBadge" style="font-size:0.77rem;color:var(--tx3)"></span>
+    <span id="credBadge" style="font-size:0.76rem;color:var(--tx3)"></span>
     <button type="button" class="btn btn-a" onclick="goStripe()" style="padding:7px 14px;font-size:0.75rem">Pro — 9€/mois</button>
   </div>
 </nav>
@@ -125,33 +111,28 @@ input:focus,textarea:focus{border-color:var(–br2)}
       <h2><span>📅</span> CalendarCraft</h2>
       <p>Calendrier éditorial mensuel complet selon ta niche</p>
     </div>
-
-```
-<label class="lbl">Ta niche / thématique</label>
-<input type="text" id="niche" placeholder="Ex : développement personnel, cuisine végane, finance perso…">
-<label class="lbl">Plateforme principale</label>
-<div class="chips" id="platGrp">
-  <button type="button" class="chip on" data-val="Instagram" onclick="selChip(this)">Instagram</button>
-  <button type="button" class="chip" data-val="TikTok" onclick="selChip(this)">TikTok</button>
-  <button type="button" class="chip" data-val="LinkedIn" onclick="selChip(this)">LinkedIn</button>
-  <button type="button" class="chip" data-val="YouTube" onclick="selChip(this)">YouTube</button>
-</div>
-<label class="lbl">Fréquence de publication</label>
-<div class="chips" id="freqGrp">
-  <button type="button" class="chip on" data-val="3 fois par semaine" onclick="selChip(this)">3x / semaine</button>
-  <button type="button" class="chip" data-val="5 fois par semaine" onclick="selChip(this)">5x / semaine</button>
-  <button type="button" class="chip" data-val="1 fois par jour" onclick="selChip(this)">1x / jour</button>
-</div>
-<label class="lbl">Mois cible</label>
-<input type="text" id="mois" placeholder="Ex : mai, juin, juillet…">
-
-<button type="button" class="gen-btn" id="genBtn" onclick="generate()">
-  <span id="genLbl">Générer</span>
-</button>
-<div class="cred-bar" id="credBar"></div>
-<div class="err" id="errMsg"></div>
-```
-
+    <label class="lbl">Ta niche / thematique</label>
+    <input type="text" id="niche" placeholder="Ex : developpement personnel, cuisine vegane, finance...">
+    <label class="lbl">Plateforme principale</label>
+    <div class="chips" id="platGrp">
+      <button type="button" class="chip on" data-val="Instagram" onclick="selChip(this)">Instagram</button>
+      <button type="button" class="chip" data-val="TikTok" onclick="selChip(this)">TikTok</button>
+      <button type="button" class="chip" data-val="LinkedIn" onclick="selChip(this)">LinkedIn</button>
+      <button type="button" class="chip" data-val="YouTube" onclick="selChip(this)">YouTube</button>
+    </div>
+    <label class="lbl">Frequence de publication</label>
+    <div class="chips" id="freqGrp">
+      <button type="button" class="chip on" data-val="3 fois par semaine" onclick="selChip(this)">3x / semaine</button>
+      <button type="button" class="chip" data-val="5 fois par semaine" onclick="selChip(this)">5x / semaine</button>
+      <button type="button" class="chip" data-val="1 fois par jour" onclick="selChip(this)">1x / jour</button>
+    </div>
+    <label class="lbl">Mois cible</label>
+    <input type="text" id="mois" placeholder="Ex : mai, juin, juillet...">
+    <button type="button" class="gen-btn" id="genBtn" onclick="generate()">
+      <span id="genLbl">Générer</span>
+    </button>
+    <div class="cred-bar" id="credBar"></div>
+    <div class="err" id="errMsg"></div>
   </div>
 
   <div class="panel panel-r">
@@ -163,14 +144,16 @@ input:focus,textarea:focus{border-color:var(–br2)}
       <div class="dots"><span></span><span></span><span></span></div>
       <div>Génération en cours…</div>
     </div>
-    <div id="resWrap" style="display:none;padding:20px">
-      <div class="res-hd">Résultats générés</div>
-      <div class="res-wrap" id="cards"></div>
+    <div id="resWrap" style="display:none">
+      <div class="res-inner">
+        <div class="res-hd">Résultats générés</div>
+        <div id="cards"></div>
+      </div>
     </div>
     <div class="up-wall" id="upWall">
       <h3>Limite gratuite atteinte</h3>
       <p>Passe à CreatorKit Pro pour des générations illimitées sur tous les outils.</p>
-      <button type="button" class="btn btn-a btn-lg" onclick="goStripe()">Passer à Pro — 9€/mois →</button>
+      <button type="button" class="btn btn-a btn-lg" onclick="goStripe()">Passer à Pro — 9€/mois</button>
       <p style="margin-top:10px;font-size:0.7rem;color:var(--tx3)">Sans engagement · Annule quand tu veux</p>
     </div>
   </div>
@@ -182,199 +165,143 @@ input:focus,textarea:focus{border-color:var(–br2)}
 </footer>
 
 <script>
+var TOOL_KEY = 'cal';
 
-const GROQ_KEY = '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';
-const STRIPE_URL = 'https://buy.stripe.com/dRm7sL5S09IPcR18xxes001';
-const TOOL_KEY = 'cal';
-const FREE_LIMIT = 3;
-
-// Load credits per-tool
-let credits = parseInt(localStorage.getItem('ck_' + TOOL_KEY) ?? FREE_LIMIT);
-let isPro = localStorage.getItem('ck_pro') === 'true';
+var GROQ_KEY = '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';
+var STRIPE_URL = 'https://buy.stripe.com/dRm7sL5S09IPcR18xxes001';
+var FREE_LIMIT = 3;
+var credits = parseInt(localStorage.getItem('ck_' + TOOL_KEY) || FREE_LIMIT);
+var isPro = localStorage.getItem('ck_pro') === 'true';
 
 function syncCredits() {
-    var n = isPro ? '∞' : Math.max(0, credits);
+    var n = isPro ? '?' : Math.max(0, credits);
     var badge = document.getElementById('credBadge');
     var bar = document.getElementById('credBar');
-    if (badge) badge.textContent = isPro ? 'Pro ✦' : (n + ' essai' + (n !== 1 ? 's' : '') + ' gratuit' + (n !== 1 ? 's' : ''));
+    if (badge) badge.textContent = isPro ? 'Pro' : (n + ' essai' + (n > 1 ? 's' : '') + ' gratuit' + (n > 1 ? 's' : ''));
     if (bar) {
-        if (!isPro && credits <= 0) {
-            bar.style.display = 'none';
-        } else {
-            bar.innerHTML = 'Essais gratuits restants : <strong>' + n + '</strong>';
-        }
+        if (!isPro && credits <= 0) { bar.style.display = 'none'; return; }
+        bar.innerHTML = 'Essais gratuits restants : <strong>' + n + '</strong>';
     }
 }
 syncCredits();
 
-// Chip selection - single select
 function selChip(el) {
-    var parent = el.parentElement;
-    var chips = parent.querySelectorAll('.chip');
+    var chips = el.parentNode.querySelectorAll('.chip');
     for (var i = 0; i < chips.length; i++) chips[i].classList.remove('on');
     el.classList.add('on');
 }
-
-// Chip selection - multi select (toggle)
-function selChipMulti(el) {
-    el.classList.toggle('on');
-}
-
-// Get selected chip value from a group by ID
-function getChip(groupId) {
-    var el = document.querySelector('#' + groupId + ' .chip.on');
+function selChipMulti(el) { el.classList.toggle('on'); }
+function getChip(id) {
+    var el = document.querySelector('#' + id + ' .chip.on');
     return el ? el.getAttribute('data-val') : '';
 }
-
-// Get all selected chip values from a group by ID
-function getChips(groupId) {
-    var els = document.querySelectorAll('#' + groupId + ' .chip.on');
-    var vals = [];
-    for (var i = 0; i < els.length; i++) vals.push(els[i].getAttribute('data-val'));
-    return vals;
+function getChips(id) {
+    var els = document.querySelectorAll('#' + id + ' .chip.on');
+    var out = [];
+    for (var i = 0; i < els.length; i++) out.push(els[i].getAttribute('data-val'));
+    return out;
 }
-
-// Robust JSON extractor
 function extractJSON(raw) {
-    var cleaned = raw.replace(/```json/gi, '').replace(/```/g, '').trim();
-    var start = cleaned.indexOf('{');
-    var end = cleaned.lastIndexOf('}');
-    if (start === -1 || end === -1) throw new Error('Réponse invalide, réessaie.');
-    return JSON.parse(cleaned.slice(start, end + 1));
+    var s = raw.indexOf('{');
+    var e = raw.lastIndexOf('}');
+    if (s < 0 || e < 0) throw new Error('Reponse invalide, reessaie.');
+    return JSON.parse(raw.slice(s, e + 1));
 }
-
-// Call Groq API
 async function callGroq(system, user) {
-    var response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    var res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + GROQ_KEY
-        },
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GROQ_KEY },
         body: JSON.stringify({
             model: 'llama-3.3-70b-versatile',
             temperature: 0.85,
             max_tokens: 2000,
-            messages: [
-                { role: 'system', content: system },
-                { role: 'user', content: user }
-            ]
+            messages: [{ role: 'system', content: system }, { role: 'user', content: user }]
         })
     });
-    if (!response.ok) {
-        var err = await response.json();
-        throw new Error(err.error ? err.error.message : 'Erreur API ' + response.status);
-    }
-    var data = await response.json();
-    return data.choices[0].message.content;
+    if (!res.ok) { var e = await res.json(); throw new Error(e.error ? e.error.message : 'Erreur ' + res.status); }
+    var d = await res.json();
+    return d.choices[0].message.content;
 }
-
-// Render result cards
 function renderCards(items) {
-    var container = document.getElementById('cards');
-    container.innerHTML = '';
+    var c = document.getElementById('cards');
+    c.innerHTML = '';
     for (var i = 0; i < items.length; i++) {
         var it = items[i];
-        var label = it.label || ('Résultat ' + (i + 1));
+        var label = it.label || ('Resultat ' + (i + 1));
         var text = it.text || it.content || it.value || '';
-        var card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML =
-            '<div class="card-top">' +
-                '<span class="card-lbl">' + escHtml(label) + '</span>' +
-                '<button type="button" class="copy-btn" data-idx="' + i + '" onclick="copyCard(this)">Copier</button>' +
-            '</div>' +
-            '<div class="card-body">' + escHtml(text) + '</div>';
-        container.appendChild(card);
+        var div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = '<div class="card-top"><span class="card-lbl">' + esc(label) + '</span><button type="button" class="copy-btn" data-idx="' + i + '" onclick="copyCard(this)">Copier</button></div><div class="card-body">' + esc(text) + '</div>';
+        c.appendChild(div);
     }
-    hide('emptyState');
-    hide('spinner');
-    show('resWrap');
+    document.getElementById('emptyState').style.display = 'none';
+    document.getElementById('spinner').classList.remove('show');
+    document.getElementById('resWrap').style.display = 'block';
 }
-
 function copyCard(btn) {
     var idx = parseInt(btn.getAttribute('data-idx'));
     var bodies = document.querySelectorAll('.card-body');
     if (bodies[idx]) {
         navigator.clipboard.writeText(bodies[idx].textContent).then(function() {
-            btn.textContent = '✓ Copié';
+            btn.textContent = 'Copie !';
             btn.classList.add('ok');
             setTimeout(function() { btn.textContent = 'Copier'; btn.classList.remove('ok'); }, 2000);
         });
     }
 }
-
 function consumeCredit() {
     if (!isPro) {
         credits--;
         localStorage.setItem('ck_' + TOOL_KEY, credits);
         syncCredits();
-        if (credits <= 0) setTimeout(showUpgrade, 1600);
+        if (credits <= 0) setTimeout(showUpgrade, 1500);
     }
 }
-
 function setLoading(on) {
     document.getElementById('genBtn').disabled = on;
-    document.getElementById('genLbl').textContent = on ? 'Génération…' : 'Générer';
+    document.getElementById('genLbl').textContent = on ? 'Generation...' : 'Generer';
     if (on) {
-        hide('emptyState');
-        hide('resWrap');
-        hide('upWall');
-        show('spinner');
+        document.getElementById('emptyState').style.display = 'none';
+        document.getElementById('resWrap').style.display = 'none';
+        document.getElementById('upWall').classList.remove('show');
+        document.getElementById('spinner').classList.add('show');
     } else {
-        hide('spinner');
+        document.getElementById('spinner').classList.remove('show');
     }
 }
-
 function showUpgrade() {
-    hide('emptyState');
-    hide('resWrap');
-    show('upWall');
+    document.getElementById('emptyState').style.display = 'none';
+    document.getElementById('resWrap').style.display = 'none';
+    document.getElementById('upWall').classList.add('show');
 }
-
 function showError(msg) {
     var el = document.getElementById('errMsg');
     el.textContent = msg;
     el.classList.add('show');
 }
-
-function clearError() {
-    document.getElementById('errMsg').classList.remove('show');
-}
-
-function show(id) { var el = document.getElementById(id); if (el) el.style.display = 'block'; }
-function hide(id) { var el = document.getElementById(id); if (el) el.style.display = 'none'; }
-
-function escHtml(s) {
-    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-
+function clearError() { document.getElementById('errMsg').classList.remove('show'); }
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function goStripe() { window.location.href = STRIPE_URL; }
-
 async function generate() {
     if (!isPro && credits <= 0) { showUpgrade(); return; }
     clearError();
     setLoading(true);
-    try {
-        
-        var niche = document.getElementById('niche').value.trim();
-        if (!niche) { showError('Indique ta niche ou thématique.'); setLoading(false); return; }
-        var plat = getChip('platGrp') || 'Instagram';
-        var freq = getChip('freqGrp') || '3 fois par semaine';
-        var mois = document.getElementById('mois').value.trim() || 'le mois prochain';
-        var system = 'Tu es stratege contenu pour createurs FR. Genere un calendrier editorial complet pour ' + mois + ' sur ' + plat + ', frequence ' + freq + ', niche : ' + niche + '. Cree entre 12 et 22 entrees. Reponds UNIQUEMENT en JSON valide sans texte avant ou apres. Format strict : {"items":[{"label":"Semaine 1 - Lundi","text":"[Format] Titre et angle du post"},{"label":"Semaine 1 - Mercredi","text":"..."}]}';
-        var raw = await callGroq(system, 'Genere le calendrier complet maintenant.');
-        var parsed = extractJSON(raw);
-        renderCards(parsed.items);
-        consumeCredit();
-    
-    } catch(e) {
-        showError('Erreur : ' + e.message);
-    } finally {
-        setLoading(false);
-    }
+    try { await doGenerate(); }
+    catch(e) { showError('Erreur : ' + e.message); }
+    finally { setLoading(false); }
 }
 
+async function doGenerate() {
+    var niche = document.getElementById('niche').value.trim();
+    if (!niche) { showError('Indique ta niche ou thematique.'); return; }
+    var plat = getChip('platGrp') || 'Instagram';
+    var freq = getChip('freqGrp') || '3 fois par semaine';
+    var mois = document.getElementById('mois').value.trim() || 'le mois prochain';
+    var sys = 'Tu es stratege contenu createurs FR. Genere un calendrier editorial complet pour ' + mois + ' sur ' + plat + ' frequence ' + freq + ' niche ' + niche + '. Entre 12 et 22 entrees. Reponds UNIQUEMENT en JSON strict sans texte avant ou apres. Format : {"items":[{"label":"Semaine 1 - Lundi","text":"[Format] Titre et angle du post"},{"label":"Semaine 1 - Mercredi","text":"..."}]}';
+    var raw = await callGroq(sys, 'Genere le calendrier complet maintenant.');
+    renderCards(extractJSON(raw).items);
+    consumeCredit();
+}
 </script>
 
 </body>
